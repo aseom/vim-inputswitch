@@ -29,7 +29,8 @@ func setInputSource(language: String) {
         let inputSource = TISCopyInputSourceForLanguage(language).takeRetainedValue()
         TISSelectInputSource(inputSource)
         
-        print("Input Source Changed: \"" + getInputSourceName(inputSource) + "\"")
+        // Print without newline
+        print("Input Source Changed: \"" + getInputSourceName(inputSource) + "\"", terminator:"")
     }
 }
 
