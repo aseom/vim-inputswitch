@@ -5,8 +5,13 @@
 let s:dir = fnamemodify(resolve(expand("<sfile>:p")), ":h")
 let s:exec = s:dir . "/../bin/inputswitch"
 
-function! inputswitch#set_input_source(language)
+function! s:set_input_source(language)
+    if !executable(s:exec)
+        echo "vim-inputswitch: Cannot execute `inputswitch`"
+        return
+    endif
     echo system(s:exec . " " . a:language)
 endfunction
 
-inoremap <silent> <ESC> <ESC>:call inputswitch#set_input_source("en")<CR>
+" Usage: `inoremap <silent> <ESC> <ESC>:ISWSetInputSource en<CR>`
+command! -nargs=* ISWSetInputSource call s:set_input_source("<args>")
