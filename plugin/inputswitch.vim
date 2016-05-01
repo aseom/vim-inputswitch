@@ -17,13 +17,13 @@ endif
 
 function! inputswitch#insert_enter()
     if exists("g:isw_laststate")
-        echom system(join([s:exec, "--set", g:isw_laststate]))
+        call system(join([s:exec, "--set", g:isw_laststate]))
     endif
 endfunction
 
 function! inputswitch#insert_leave()
     let g:isw_laststate = system(join([s:exec, "--get"]))
-    echom system(join([s:exec, "--set", "en"]))
+    call system(join([s:exec, "--set", "en"]))
 endfunction
 
 autocmd InsertEnter * call inputswitch#insert_enter()
