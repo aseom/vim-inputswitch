@@ -21,7 +21,12 @@ func getInputSourceName(inputSource: TISInputSource) -> String {
     return cfName as String
 }
 
-func setInputSource(language: String) {
+func getCommand() {
+    let currentInputSource = TISCopyCurrentKeyboardInputSource().takeRetainedValue()
+    print(getInputSourceLanguage(currentInputSource), terminator:"")
+}
+
+func setCommand(language: String) {
     let currentInputSource = TISCopyCurrentKeyboardInputSource().takeRetainedValue()
     if language != getInputSourceLanguage(currentInputSource) {
 
@@ -33,9 +38,12 @@ func setInputSource(language: String) {
     }
 }
 
-if(Process.arguments.count >= 2) {
-    setInputSource(Process.arguments[1])
+if Process.arguments.count == 2 && Process.arguments[1] == "--get" {
+    getCommand()
+
+} else if Process.arguments.count == 3 && Process.arguments[1] == "--set" {
+    setCommand(Process.arguments[2])
+
 } else {
-    print("Missing argument: language code")
     exit(1)
 }

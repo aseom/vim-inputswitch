@@ -15,9 +15,16 @@ if !executable(s:exec)
     echom system(join(["cd", s:dir, "&&", "make"]))
 endif
 
-function! s:set_input_source(language)
-    echom system(join([s:exec, a:language]))
+function! inputswitch#insert_enter()
+    if exists("g:isw_laststate")
+        echom system(join([s:exec, "--set", g:isw_laststate]))
+    endif
 endfunction
 
-" Usage: `:ISWSetInputSource <language>`
-command! -nargs=1 ISWSetInputSource call s:set_input_source("<args>")
+function! inputswitch#insert_leave()
+    let g:isw_laststate = system(join([s:exec, "--get"]))
+    echom system(join([s:exec, "--set", "en"]))
+endfunction
+
+autocmd InsertEnter * call inputswitch#insert_enter()
+autocmd InsertLeave * call inputswitch#insert_leave()
